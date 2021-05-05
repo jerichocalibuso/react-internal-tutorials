@@ -6,49 +6,6 @@ const app = express();
 
 app.use(express.json());
 
-// app.post("/todo", async (req, res) => {
-//   const { task } = req.body;
-//   const result = await prisma.todo.create({
-//     data: {
-//       task,
-//     },
-//   });
-//   res.json(result);
-// });
-
-// app.get("/todos", async (req, res) => {
-//   const todos = await prisma.todo.findMany();
-//   res.json(todos);
-// });
-
-// app.put("/todo/:id", async (req, res) => {
-//   const { id } = req.params;
-//   const { isDone } = await prisma.todo.findUnique({
-//     where: {
-//       id: String(id),
-//     },
-//   });
-//   const todo = await prisma.todo.update({
-//     where: {
-//       id: String(id),
-//     },
-//     data: {
-//       isDone: !isDone,
-//     },
-//   });
-//   res.json(todo);
-// });
-
-// app.delete("/todo/:id", async (req, res) => {
-//   const { id } = req.params;
-//   const todo = await prisma.todo.delete({
-//     where: {
-//       id: String(id),
-//     },
-//   });
-//   res.json(todo);
-// });
-
 // Create project
 app.post("/projects", async (req, res) => {
   const { title } = req.body;
