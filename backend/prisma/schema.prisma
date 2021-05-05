@@ -15,7 +15,15 @@ generator client {
 }
 
 model Todo {
-  id     String   @id @default(uuid())
-  task   String
-  isDone Boolean? @default(false)
+  id        Int      @id @default(autoincrement())
+  task      String
+  isDone    Boolean? @default(false)
+  Project   Project  @relation(fields: [projectId], references: [id])
+  projectId Int
+}
+
+model Project {
+  id    Int    @id @default(autoincrement())
+  title String
+  todos Todo[]
 }
