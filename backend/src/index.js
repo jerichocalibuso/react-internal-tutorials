@@ -1,10 +1,12 @@
 const express = require("express");
+const cors = require("cors");
 const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 // Create project
 app.post("/projects", async (req, res) => {
@@ -21,15 +23,30 @@ app.post("/projects", async (req, res) => {
   }
 });
 
-// Get projects and its todos
+// Get projects
 app.get("/projects", async (req, res) => {
   try {
-    const projects = await prisma.project.findMany({
+    const projects = await prisma.project.findMany();
+    res.json(projects);
+  } catch (e) {
+    console.error(`Error on updating a project todo, Error: ${e}`);
+  }
+});
+
+// Get projects todos
+app.get("/projects/:id", async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const todos = await prisma.project.findUnique({
+      where: {
+        id: parseInt(id),
+      },
       include: {
         todos: true,
       },
     });
-    res.json(projects);
+    res.json(todos);
   } catch (e) {
     console.error(`Error on updating a project todo, Error: ${e}`);
   }
@@ -53,6 +70,7 @@ app.post("/projects/:id", async (req, res) => {
     console.error(`Error on creating a project todo, Error: ${e}`);
   }
 });
+
 // Update project todo
 app.put("/projects/:id", async (req, res) => {
   const { id: taskId, isDone } = req.body;
@@ -72,6 +90,7 @@ app.put("/projects/:id", async (req, res) => {
   }
 });
 
-const server = app.listen(3001, () =>
-  console.log("🚀 Server ready at: http://localhost:3001")
+const PORT = 5001;
+const server = app.listen(PORT, () =>
+  console.log(`🚀 Server ready at: http://localhost:${PORT}`)
 );
