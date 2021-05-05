@@ -36,7 +36,6 @@ app.get("/projects", async (req, res) => {
 // Get projects todos
 app.get("/projects/:id", async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   try {
     const todos = await prisma.project.findUnique({
       where: {
